@@ -11,9 +11,15 @@ ENV LANG de_DE.UTF-8
 ENV LANGUAGE de_DE:de
 ENV LC_ALL de_DE.UTF-8
 
+ENV PUID=1000
+ENV PGID=1000
+
 RUN useradd -m -d /home/streamripper streamripper
 USER streamripper
 WORKDIR /home/streamripper
+
+RUN groupmod -o -g ${PGID} streamripper && \
+    usermod -o -u ${PUID} streamripper
 
 ADD run.sh /run.sh
 ENTRYPOINT ["/run.sh"]
