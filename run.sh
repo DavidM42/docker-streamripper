@@ -1,7 +1,7 @@
 #!/bin/bash
 
-PUID=${PUID:-1000}
-PGID=${PGID:-1000}
+PUID=${PUID:-568}
+PGID=${PGID:-568}
 
 groupmod -o -g "$PGID" streamripper
 usermod -o -u "$PUID" streamripper
