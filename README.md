@@ -57,6 +57,10 @@ services:
   streamripper:
     image: clue/streamripper
     restart: always
+    environment:
+      - LANG=de_DE.UTF-8
+      - LANGUAGE=de_DE:de
+      - LC_ALL=de_DE.UTF-8
     volumes:
       - $HOME/MyMusic:/home/streamripper
     command: http://mystation.local/radio.pls -s -m 30 --xs2 -o never -T
