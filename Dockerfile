@@ -7,6 +7,10 @@ RUN apt-get update && \
     sed -i 's/# de_DE.UTF-8 utf-8/de_DE.UTF-8 utf-8/' /etc/locale.gen && \
     locale-gen de_DE.UTF-8
 
+ENV LANG de_DE.UTF-8
+ENV LANGUAGE de_DE:de
+ENV LC_ALL de_DE.UTF-8
+
 RUN useradd -m -d /home/streamripper streamripper
 USER streamripper
 WORKDIR /home/streamripper
