@@ -1,8 +1,9 @@
 from ubuntu:20.04
 MAINTAINER David M <example@example.com>
 
+# install streamripper, gosu, and locales
 RUN apt-get update && \
-    apt-get install -y --no-install-recommends streamripper && \
+    apt-get install -y --no-install-recommends streamripper gosu && \
     apt-get install -y locales && \
     sed -i 's/# de_DE.UTF-8 utf-8/de_DE.UTF-8 utf-8/' /etc/locale.gen && \
     locale-gen de_DE.UTF-8
