@@ -72,4 +72,22 @@ You can then run this as a background service like this:
 $ docker-compose up -d
 ```
 
+## My trueNAS docker compose
+```yml
+services:
+  streamripper:
+    command: >-
+      https://mp3.planetradio.de/plrchannels/hqtheclub.aac -o larger -s
+      --codeset-filesys=UTF-8 --codeset-id3=UTF-8 --codeset-metadata=UTF-8
+    environment:
+      - PUID=568
+      - PGID=568
+      - TZ=Europe/Berlin
+    image: ghcr.io/davidm42/german-enabled-streamripper:master
+    restart: always
+    volumes:
+      - >-
+        $HOME/MyMusic:/home/streamripper
+```
+
 > Disclaimer: It goes without saying that it should be in your best interest to support the artists and stations. Sharing copyrighted files with the public is not a good idea unless you have permission to do so. Running this in your local network to discover new music may or may not be legal in your jurisdiction, sharing this with the public probably is not (IANAL).
