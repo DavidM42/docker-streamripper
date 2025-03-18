@@ -2,8 +2,7 @@ FROM debian:stretch
 MAINTAINER David M <example@example.com>
 
 RUN apt-get update && \
-    apt-get install -y --no-install-recommends streamripper && \
-    rm -rf /var/lib/apt/lists/*
+    apt-get install -y --no-install-recommends streamripper
 
 run apt-get update && apt-get install -y locales && \
     sed -i 's/# de_DE.UTF-8 utf-8/de_DE.UTF-8 utf-8/' /etc/locale.gen && \
