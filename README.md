@@ -1,4 +1,4 @@
-# clue/streamripper
+# davidm42/docker-streamripper
 
 [Streamripper](http://streamripper.sourceforge.net/) is an application that lets you record streaming mp3 to your hard drive. This is a [Docker](https://www.docker.com) image that eases setup.
 
@@ -15,7 +15,7 @@ Streamripper allows you to download an entire station of music. Many of these mp
 This docker image is available as an [automated build on Docker Hub](https://hub.docker.com/r/clue/streamripper/), so using it is as simple as running:
 
 ```bash
-$ docker run clue/streamripper -h
+$ docker run ghcr.io/davidm42/docker-streamripper:master -h
 ```
 
 Using this image for the first time will start a download automatically. Further runs will be immediate, as the image will be cached locally.
@@ -33,16 +33,10 @@ You can also supply any number of additional streamripper arguments that will be
 A common way to put this all together looks like this:
 
 ```bash
-$ docker run -d -v $HOME/MyMusic:/home/streamripper clue/streamripper http://mystation.local/radio.pls -s -m 30 --xs2 -o never -T
+$ docker run -d -v $HOME/MyMusic:/home/streamripper ghcr.io/davidm42/docker-streamripper:master streamripper http://mystation.local/radio.pls -s -m 30 --xs2 -o never -T
 ```
 
 This will start the streamripper container in a detached session in the background.
-
-## Relay stream
-
-Streamripper supports creating a "relay stream" that allows clients to connect to the stream that is currently being ripped. This means that you can share the same stream without causing another connection to the remote radio station.
-
-This image is configured to automatically pass the required streamripper options.
 
 ## Cleanup
 
@@ -55,15 +49,11 @@ Similarly, you can also use [Docker Compose](https://docs.docker.com/compose/) t
 ```yml
 services:
   streamripper:
-    image: clue/streamripper
+    image: ghcr.io/davidm42/docker-streamripper:master
     restart: always
-    environment:
-      - LANG=de_DE.UTF-8
-      - LANGUAGE=de_DE:de
-      - LC_ALL=de_DE.UTF-8
     volumes:
       - $HOME/MyMusic:/home/streamripper
-    command: http://mystation.local/radio.pls -s -m 30 --xs2 -o never -T
+    command: streamripper http://mystation.local/radio.pls -s -m 30 --xs2 -o never -T
 ```
 
 You can then run this as a background service like this:
@@ -72,7 +62,10 @@ You can then run this as a background service like this:
 $ docker-compose up -d
 ```
 
-## My trueNAS docker compose
+## My personal trueNAS docker compose
+
+I run it in TrueNAS scale with following docker-compose.yml. It includes some maybe unecessary, maybe needed codeset stuff for german streams, user & group of TrueNAS scale apps (568) and restart preferences.
+
 ```yml
 services:
   streamripper:
@@ -82,12 +75,10 @@ services:
     environment:
       - PUID=568
       - PGID=568
-      - TZ=Europe/Berlin
-    image: ghcr.io/davidm42/german-enabled-streamripper:master
-    restart: always
+    image: ghcr.io/davidm42/docker-streamripper:master
+    restart: unless-stopped
     volumes:
-      - >-
-        $HOME/MyMusic:/home/streamripper
+      - $HOME/MyMusic:/home/streamripper
 ```
 
 > Disclaimer: It goes without saying that it should be in your best interest to support the artists and stations. Sharing copyrighted files with the public is not a good idea unless you have permission to do so. Running this in your local network to discover new music may or may not be legal in your jurisdiction, sharing this with the public probably is not (IANAL).
